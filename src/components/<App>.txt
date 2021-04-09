@@ -1,0 +1,17 @@
+<App>
+    <Grid>
+        <Row>
+            <Column>
+                <Text></Text>
+                <Text></Text>
+            </Column>
+            <Column>
+                <Button></Button>
+                <Form url="" name="signup">
+                    <Input name="" placeholder="First Name"></Input>
+                    <Button></Button>
+                </Form>
+            </Column>
+        </Row>
+    </Grid>
+</App>

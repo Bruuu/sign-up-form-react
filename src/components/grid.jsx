@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Column from './column';
 
-export default class Grid extends Component {
-    render() {
-        return <div class="container">Container</div>
-    }
+const Grid = () => {
+    return <div className="container"></div>;
 }
+export default Grid;

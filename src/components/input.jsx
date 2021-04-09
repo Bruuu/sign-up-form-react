@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = ({value, name, onChange, placeholder, type}) => {
+const Input = ({value, name, onChange, placeholder, type, error}) => {
     return (<div className="form-control">
     <input value={value}
            name={name}
@@ -9,8 +9,7 @@ const Input = ({value, name, onChange, placeholder, type}) => {
            className="input"
            placeholder={placeholder}
            onChange={onChange}/>
-    <i className="fa fa-exclamation-circle"></i>
-    <small>Error message</small>
-</div>);
+           {error && (<small>{error}</small>)}
+           </div>);
 }
 export default Input;
