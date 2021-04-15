@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Column = () => {
-    return <div className="column"></div>;
+const Column = ({ children }) => {
+    return ( <div className="column"> {children} </div> );
 }
+
 export default Column;
