@@ -7,6 +7,5 @@ export default function validate(values) {
                errors[field] = `${field} cannot be empty`; //use lodash
             }
     }
-    console.log(errors);
     return errors;
 }

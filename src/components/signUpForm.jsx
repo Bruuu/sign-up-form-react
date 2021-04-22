@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from './input';
 import validate from './validateForm';
 
@@ -12,6 +12,11 @@ function SignUpForm() {
 
     const [errors, setErrors] = useState({});
 
+    useEffect(() => {
+        if (values.firstName || values.lastName || values.email || values.password)
+            setErrors(validate(values));
+    }, [values])
+    
     const handleSubmit = e => {
         e.preventDefault();
         setErrors(validate(values));
@@ -57,7 +62,7 @@ function SignUpForm() {
                     onChange={handleChange}
                     error={errors.password}
                 />
-                <button class="btn-submit" type="submit">Claim your free trial</button>
+                <button className="button btn-submit" type="submit">Claim your free trial</button>
                 <p>By clicking the button, you are agreeing to our <a href="#" className="link bold">Terms and Services</a></p>
             </form>
         </React.Fragment>);

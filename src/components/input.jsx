@@ -13,6 +13,7 @@ const Input = ({value, name, placeholder, onChange, type="text", error}) => {
                     className="input"
                     placeholder={placeholder}
                     onChange={onChange}/>
+                <i class="fa fa-exclamation-circle"></i>
                 {error && (<small>{error}</small>)}
             </div>);
 }

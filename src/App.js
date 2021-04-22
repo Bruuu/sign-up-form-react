@@ -1,4 +1,4 @@
-import './App.css';
+import './index.css';
 import SignUpForm from './components/signUpForm';
 import Grid from './components/grid';
 import Column from './components/column';
@@ -13,7 +13,7 @@ function App() {
           <p className="centered">See how experienced developers solve problems in real-time. Watching scripted tutorials is great, but understanding how developers think is invaluable</p>
         </Column>
         <Column>
-          <div className="button accent shadow">
+          <div className="button accent shadow centered">
             <span className="bold">Try it free 7 days</span> then $20/mo. thereafter
           </div>
           <SignUpForm />
