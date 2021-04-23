@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Input from './input';
 
 function SignUpForm() {
-    const validateRequired = (field, value) => {
+    const validateRequired = (field) => (value) => {
         if (value.trim() === '') {
             return `${field} cannot be empty`;
         }
@@ -10,7 +10,7 @@ function SignUpForm() {
         return '';
     }
 
-    const validateEmail = (field, value) => {
+    const validateEmail = (field) => (value) => {
         if ((!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value.toLowerCase()))) {
             return `${field} must be a valid email address`;
         }
@@ -18,42 +18,17 @@ function SignUpForm() {
         return '';
     }
 
-    // const validateRequired = (field) => (value) => {
-    //     if (value.trim() === '') {
-    //         return `${field} cannot be empty`;
-    //     }
-
-    //     return '';
-    // }
-    //const f1 = validateRequired('firstname')
-    //const validationResult = f1('value');
-
-    // const validateEmail = (field) => (value) => {
-    //     if ((!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value.toLowerCase()))) {
-    //         return `${field} must be a valid email address`;
-    //     }
-
-    //     return '';
-    // }
-
     const validations = {
-        firstName: validateRequired,
-        lastName: validateRequired,
-        email: (field, value) => {
+        firstName: validateRequired('firstName'),
+        lastName: validateRequired('lastName'),
+        email: (value) => {
             if (value.trim() === '') {
-                return validateRequired(field, value);
+                return validateRequired('email')(value);
             }
-            return validateEmail(field, value);
+            return validateEmail('email')(value);
         },
-        password: validateRequired,
+        password: validateRequired('password'),
     }
-
-    // const validations = {
-    //     firstName: validateRequired('firstName'),
-    //     lastName: validateRequired('lastName'),
-    //     email: validateEmail('email'),
-    //     password: validateRequired('password')
-    // }
 
     const [values, setValues] = useState({
         firstName: '',
@@ -70,7 +45,7 @@ function SignUpForm() {
         const validationResults = Object.entries(values).map(([field, value]) => {
             const validator = validations[field];
             return {
-                [field]: validator(field, value),
+                [field]: validator(value),
             }
         });
 
@@ -82,7 +57,6 @@ function SignUpForm() {
         }, {});
 
         setErrors(validationResult);
-        // values['firstName'] = validations['firstName']
     }
 
     const handleChange = e => {
@@ -93,7 +67,7 @@ function SignUpForm() {
         });
 
         const validate = validations[name];
-        const validationResult = validate(name, value);
+        const validationResult = validate(value);
 
         setErrors({
             ...errors,
