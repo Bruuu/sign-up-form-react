@@ -1,8 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Input from './input';
-import validate from './validateForm';
 
 function SignUpForm() {
+    const validateRequired = (field, value) => {
+        if (value.trim() === '') {
+            return `${field} cannot be empty`;
+        }
+
+        return '';
+    }
+
+    const validateEmail = (field, value) => {
+        if ((!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value.toLowerCase()))) {
+            return `${field} must be a valid email address`;
+        }
+
+        return '';
+    }
+
+    // const validateRequired = (field) => (value) => {
+    //     if (value.trim() === '') {
+    //         return `${field} cannot be empty`;
+    //     }
+
+    //     return '';
+    // }
+    //const f1 = validateRequired('firstname')
+    //const validationResult = f1('value');
+
+    // const validateEmail = (field) => (value) => {
+    //     if ((!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value.toLowerCase()))) {
+    //         return `${field} must be a valid email address`;
+    //     }
+
+    //     return '';
+    // }
+
+    const validations = {
+        firstName: validateRequired,
+        lastName: validateRequired,
+        email: (field, value) => {
+            if (value.trim() === '') {
+                return validateRequired(field, value);
+            }
+            return validateEmail(field, value);
+        },
+        password: validateRequired,
+    }
+
+    // const validations = {
+    //     firstName: validateRequired('firstName'),
+    //     lastName: validateRequired('lastName'),
+    //     email: validateEmail('email'),
+    //     password: validateRequired('password')
+    // }
+
     const [values, setValues] = useState({
         firstName: '',
         lastName: '',
@@ -12,14 +64,25 @@ function SignUpForm() {
 
     const [errors, setErrors] = useState({});
 
-    useEffect(() => {
-        if (values.firstName || values.lastName || values.email || values.password)
-            setErrors(validate(values));
-    }, [values])
-    
     const handleSubmit = e => {
         e.preventDefault();
-        setErrors(validate(values));
+
+        const validationResults = Object.entries(values).map(([field, value]) => {
+            const validator = validations[field];
+            return {
+                [field]: validator(field, value),
+            }
+        });
+
+        const validationResult = validationResults.reduce((accu, item) => {
+            return {
+                ...accu,
+                ...item,
+            };
+        }, {});
+
+        setErrors(validationResult);
+        // values['firstName'] = validations['firstName']
     }
 
     const handleChange = e => {
@@ -27,6 +90,14 @@ function SignUpForm() {
         setValues({
             ...values,
             [name]: value
+        });
+
+        const validate = validations[name];
+        const validationResult = validate(name, value);
+
+        setErrors({
+            ...errors,
+            [name]: validationResult
         });
     }
 
@@ -68,5 +139,5 @@ function SignUpForm() {
         </React.Fragment>);
 
 }
- 
+
 export default SignUpForm;
